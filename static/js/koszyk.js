@@ -39,7 +39,7 @@ for( var i =0; i < updateBtns.length; i++){
         }
 
         function updateUserOrder(productId, action){
-            console.log('urzytkownik zalogowany')
+            console.log('uzytkownik zalogowany')
 
             var url = '/update_item/'
 
@@ -64,5 +64,3 @@ for( var i =0; i < updateBtns.length; i++){
         }
     )
 }
-
-

@@ -98,3 +98,49 @@ h1,h2,h3,h4,h5,h6{
 .hidden{
 	display: none!important;
 }
+
+.blog-container {
+    width: 80%;
+    margin: auto;
+    overflow: auto;
+}
+
+.blog-post {
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.post-title {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.post-image {
+    height: 100%;
+    max-height: 300px;
+    width: auto;
+}
+
+.post-content {
+    color: #666;
+}
+
+.post-meta {
+    color: #999;
+    font-size: 0.85em;
+}
+
+.centered-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.button-height {
+	    height: 40px;
+		margin-top: 22px;
+}
+

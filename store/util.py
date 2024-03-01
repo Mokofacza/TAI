@@ -1,5 +1,8 @@
 import json
 from .models import *
+from django import template
+
+register = template.Library()
 
 def cookieCart(request):
     try:

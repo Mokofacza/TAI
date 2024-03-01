@@ -1,5 +1,48 @@
 {% extends 'store/main.html' %}
 {% load static %}
 {% block content %}
-    <h1>Blog</h1>
-{% endblock content %}
+<div class="container mt-4">
+    {% for post in posts %}
+        <div class="card mb-4 shadow-sm">
+            {% if post.image %}
+                <img src="{{ post.imageurl }}" class="post-image centered-image" alt="{{ post.title }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ post.title }}</h5>
+                <p class="card-text">{{ post.content|linebreaks }}</p>
+                <p class="card-text"><small class="text-muted">Opublikowano {{ post.published_date|date:"d-m-Y H:i" }}</small></p>
+                <h6>Komentarze:</h6>
+                {% for comment in post.post_comments.all %}
+                    <div class="d-flex justify-content-between mb-2 border-bottom">
+                        <div>
+                            <strong>{{ comment.user.username }}</strong> <small class="text-muted">({{ comment.published_date|date:"d-m-Y H:i" }})</small>:
+                            <p>{{ comment.content }}</p>
+                        </div>
+                        {% if user.is_authenticated and user == comment.user or user.is_staff %}
+                            <a href="{% url 'usun_komentarz' comment.id %}" class="btn btn-outline-danger btn-sm align-self-start">Usuń komentarz</a>
+                        {% endif %}
+                    </div>
+                {% empty %}
+                    <p>Brak komentarzy.</p>
+                {% endfor %}
+                {% if user.is_authenticated %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {{ form.as_p }}
+                        </div>
+                        <input type="hidden" name="blogpost_id" value="{{ post.id }}">
+                        <button type="submit" class="btn btn-primary">Dodaj komentarz</button>
+                    </form>
+                {% else %}
+                    <p>Aby dodać komentarz, musisz być <a href="{% url 'login' %}" class="link-primary">zalogowany</a>.</p>
+                {% endif %}
+
+                {% if user.is_authenticated and user.is_staff %}
+                    <a href="{% url 'delete_post' post.id %}" class="btn btn-danger mt-2" onclick="return confirm('Czy na pewno chcesz usunąć ten post?');">Usuń post</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -40,7 +40,8 @@
     <br>
 <div class="box-element hidden" id="payment-info">
 	<small>Paypal Options</small>
-    <button id="make-payment">Zapłać</button>
+    <div id="paypal-button-container"></div>
+<button id="make-payment">Zapłać</button>
 </div>
     </div>
 <div class="col-lg-6">
@@ -63,6 +64,7 @@
         </div>
 </div>
 </div>
+
     <script type="text/javascript">
         var shipping = '{{ order.shipping }}'
         var total = '{{ order.get_cart_total|floatformat:2 }}'
@@ -93,6 +95,8 @@
         document.getElementById('make-payment').addEventListener('click', function (e){
             sumbitFormData()
         })
+
+
        function sumbitFormData(){
            console.log("payment button clicked")
 
