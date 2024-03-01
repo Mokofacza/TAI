@@ -1,0 +1,37 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<div class="row" id="product-list">
+
+</div>
+    <script type="text/javascript" src="{% static 'js/koszyk.js' %}"></script>
+    <script type="text/javascript">
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/api/sklep')
+        .then(response => response.json())
+        .then(data => {
+            const products = data.products;
+            const container = document.getElementById('product-list');
+            products.forEach(product => {
+                const productHTML = `
+                    <div class="col-lg-3">
+                        <img class="thumbnail" src="${product.image}">
+                        <div class="box-element product">
+                            <h6><strong>${product.name}</strong></h6>
+                            <hr>
+                            <button data-product="{{ product.id }}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Dodaj do koszyka</button>
+                            <h3 style="display: inline-block; float: right">${product.price.toFixed(2)}zł</h3>
+                        </div>
+                    </div>
+                `;
+
+                container.innerHTML += productHTML;
+            });
+        })
+        .catch(error => console.error('Error:', error));
+});
+
+    </script>
+{% endblock %}
+
+

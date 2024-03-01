@@ -1,0 +1,29 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container mt-5">
+    <h2 class="mb-3">Rejestracja</h2>
+    <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="form-group">
+            {% for field in register_form %}
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {% if field.widget.attrs.type != "hidden" %}
+                    <input class="{{ field.css_classes }} form-control{% if field.errors %} is-invalid{% endif %}" id="{{ field.id_for_label }}" name="{{ field.name }}" type="{{ field.widget.input_type }}" {% if field.widget.attrs.placeholder %}placeholder="{{ field.widget.attrs.placeholder }}"{% endif %} {% if field.value %}value="{{ field.value|stringformat:'s' }}"{% endif %}>
+                    {% for error in field.errors %}
+                        <div class="invalid-feedback">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {{ field }}
+                {% endif %}
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-primary">Zarejestruj się</button>
+    </form>
+</div>
+
+{% endblock %}
+

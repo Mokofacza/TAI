@@ -1,0 +1,70 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+{% if request.user.is_authenticated and user.is_staff %}
+<div class="container mt-4">
+    <h2>Dodaj Post</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Opublikuj</button>
+    </form>
+</div>
+<div class="container mt-5">
+    <h2>Otwarte koszyki</h2>
+    <div class="row">
+        {% for order in orders %}
+        {% if not order.complete %}
+        <div class="col-md-4 mt-3">
+            <div class="card border-danger">
+                <div class="card-body">
+                    <h5 class="card-title">Zamówienie #{{ order.id }}</h5>
+                    <p class="card-text">Klient: {{ order.customer }}</p>
+                    <p class="card-text">Data zamówienia: {{ order.date_ordered }}</p>
+                    <p class="card-text">Suma zamówienia: {{ order.get_cart_total }} zł</p>
+                    <a class="card-link" data-bs-toggle="collapse" href="#collapseDetails{{ order.id }}">Ilość przedmiotów: {{ order.get_cart_items }}</a>
+                    <div id="collapseDetails{{ order.id }}" class="collapse">
+                        {% for item in order.orderitem_set.all %}
+                        <p class="card-text">{{ item.product.name }} - Ilość: {{ item.quantity }}</p>
+                        {% endfor %}
+                    </div>
+                    <p class="card-text">Status: Oczekujące</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    <h2>Zrealizowane Zamówienia</h2>
+    <div class="row">
+        {% for order in orders %}
+        {% if order.complete %}
+        <div class="col-md-4 mt-3">
+            <div class="card border-success">
+                <div class="card-body">
+                    <h5 class="card-title">Zamówienie #{{ order.id }}</h5>
+                    <p class="card-text">Klient: {{ order.customer }}</p>
+                    <p class="card-text">Data zamówienia: {{ order.date_ordered }}</p>
+                    <p class="card-text">Suma zamówienia: {{ order.get_cart_total }} zł</p>
+                    <a class="card-link" data-bs-toggle="collapse" href="#collapseDetails{{ order.id }}">Ilość przedmiotów: {{ order.get_cart_items }}</a>
+                    <div id="collapseDetails{{ order.id }}" class="collapse">
+                        {% for item in order.orderitem_set.all %}
+                        <p class="card-text">{{ item.product.name }} - Ilość: {{ item.quantity }}</p>
+                        {% endfor %}
+                    </div>
+                    <p class="card-text">Status: Zrealizowane</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+<div class="container mt-4">
+    <div class="alert alert-warning" role="alert">
+        Panel dostępny tylko dla admina.
+    </div>
+</div>
+{% endif %}
+{% endblock %}
