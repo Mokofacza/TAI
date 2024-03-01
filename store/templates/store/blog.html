@@ -16,7 +16,7 @@
                     <div class="d-flex justify-content-between mb-2 border-bottom">
                         <div>
                             <strong>{{ comment.user.username }}</strong> <small class="text-muted">({{ comment.published_date|date:"d-m-Y H:i" }})</small>:
-                            <p>{{ comment.content }}</p>
+                            <p>{{ comment.tresc }}</p>
                         </div>
                         {% if user.is_authenticated and user == comment.user or user.is_staff %}
                             <a href="{% url 'usun_komentarz' comment.id %}" class="btn btn-outline-danger btn-sm align-self-start">Usuń komentarz</a>
